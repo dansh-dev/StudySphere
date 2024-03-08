@@ -1,0 +1,37 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/profile.css'%}" />
+</head>
+<body>
+    <div class="main-content">
+    {% if user.is_authenticated %}
+    <a href="/courses/homepage" class="learning-button">Learning Homepage</a>
+    <h2>Edit Profile</h2>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button class="card-button" type="submit">Save Changes</button>
+        {% if errors%}
+    {% if errors.first_name %}
+    <p>First name invalid!</p>
+    {% endif %}
+    {% if errors.last_name %}
+    <p>Last name invalid!</p>
+    {% endif %}
+    {% if errors.email %}
+    <p>Email already in use / invalid!</p>
+    {% endif %}
+    {% endif %}
+        <br>
+        <br>
+    </form>
+    {% else %}
+    <h1>Please log in to view this page</h1>
+    <a href="/users/login_user/">Click to Login.</a>
+    {% endif %}
+  </div>
+  </body>
+</html>

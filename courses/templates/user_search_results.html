@@ -1,0 +1,33 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/profile.css'%}" />
+</head>
+<body>
+    <div class="main-content">
+    {% if user.is_authenticated %}
+    <h2>Search Results</h2>
+    <a href="/courses/homepage" class="learning-button">Learning Homepage</a>
+    <br>
+    
+      {% for user in users %}
+      <div class="card-container">
+        <img class="profile_picture" src="{{ user.profile_picture.url }}" class="pfp"/>
+      <h3>Username: {{ user.username }}</h3>
+      <h3>Email: {{ user.email }}</h3>
+      <h3>Role: {{ user.auth_level }}</h3>
+      <a class="card-button" href="{% url 'view_profile' user.id %}">View user profile</a>
+    </div>
+    <br>
+    <br>
+      {% endfor %}
+    {% else %}
+    <h1>Please log in to view this page</h1>
+    <a href="/users/login_user/">Click to Login.</a>
+    {% endif %}
+  </div>
+  </body>
+</html>
+

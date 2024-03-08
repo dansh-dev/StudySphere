@@ -1,0 +1,21 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/courses.css'%}" />
+</head>
+<body>
+   
+      <div class="main-content">
+        <a href="/chat/home/" class="learning-button">Back</a>
+        <h2>Create New Chat Room</h2>
+    <form method="post">
+        {% csrf_token %}
+        <label for="room_name">Room Name:</label>
+        <input type="text" id="room_name" name="room_name" required>
+        <button type="submit">Create Room</button>
+    </form>
+        </body>
+</html>

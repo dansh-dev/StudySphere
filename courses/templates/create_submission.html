@@ -1,0 +1,24 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/courses.css'%}" />
+</head>
+<body>
+    <div class="main-content">
+    {% if user.is_authenticated %}
+    <a href="/courses/homepage" class="learning-button">Learning Homepage</a>
+    <h2>Create Course Submission</h2>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <p>Note that once submission is finalized that it is unable to edit/remove it!</p>
+        <button class="card-button" type="submit">Submit</button>
+        <br>
+        <br>
+    </form>
+    {% endif %}
+  </div>
+  </body>
+</html>

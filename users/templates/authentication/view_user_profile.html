@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/profile.css'%}" />
+</head>
+<body>
+    <div class="main-content">
+    {% if user.is_authenticated %}
+    <a href="/courses/homepage" class="learning-button">Learning Homepage</a>
+    <h1>View profile</h1>
+    <img class="profile_picture" src="{{ req_user.0.profile_picture.url }}" class="pfp"/>
+    <h1>{{ req_user.0 }}</h1>
+    <h1>Full name: {{ req_user.0.first_name}} {{ req_user.0.last_name}}</h1>
+    <h2>Email: {{ req_user.0.email }}</h2>
+    <h2>Bio: {{ req_user.0.bio}}</h2>
+    <h2>Role: {{ req_user.0.auth_level }}</h2>
+    {% else %}
+    <h1>Please log in to view this page</h1>
+    <a href="/users/login_user/">Click to Login.</a>
+    {% endif %}
+  </div>
+  </body>
+</html>

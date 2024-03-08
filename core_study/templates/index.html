@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {% load static %}
+    {% csrf_token %}
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>STUDY SPHERE - Home</title>
+    <link rel="stylesheet" href="{% static 'css/main.css'%}" />
+  </head>
+  <body>
+    <div class="menu-bar">
+      <!-- Logo -->
+      <div class="title-container">
+        <img src="{% static 'Small.png' %}" alt="Logo" class="logo" />
+        <span class="title">STUDY SPHERE</span>
+      </div>
+
+      <!-- Menu Buttons -->
+      <div class="menu-buttons">
+        
+        {% if user.is_authenticated %}
+        <a href="/courses/homepage/" class="menu-button">HOMEPAGE</a>
+        <a href="/courses/courses/" class="menu-button">ALL COURSES</a>
+        <a href="#about" class="menu-button">ABOUT</a>
+        <a href="/users/logout_user" class="menu-button">LOGOUT</a>
+        {% else %}
+        <a href="#" class="menu-button">HOME</a>
+        <a href="#courses" class="menu-button">COURSES</a>
+        <a href="#about" class="menu-button">ABOUT</a>
+        <a href="/users/login_user" class="menu-button">LOGIN/SIGNUP</a>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="main-content">
+      <h1>Welcome to Study Sphere</h1>
+      <h2>Learn, Grow and Progress with our Online Courses!</h2>
+      <p>
+        Through our innovative and bespoke learning platform you can have access
+        to all course-related material and direct communication<br />
+        with your tutors and classmates. It's as easy as creating an account,
+        applying for one or multiple courses and learning!
+      </p>
+      <br />
+      <div class="scroll-cta-container">
+        <img class="scroll-cta" src="{% static 'arrow.png' %}" alt="" />
+      </div>
+    </div>
+    <div id="courses" class="courses-content">
+      <h2>Courses that we currently offer:</h2>
+      <div class="course-container">
+      {% for course in courses %}
+        <div class="card">
+            <img class="banner_image" src="{{ course.banner_image.url }}" alt="banner_image"> 
+            <div class="card-container">
+                <h4>{{ course.name }}</h4>
+                <p>{{ course.description }}</p>
+                {% if user.is_authenticated %}
+                {% else %}
+                <a href="/users/login_user" class="card-button">Enroll</a>
+                {% endif %}
+            </div>
+            </div>
+      {% endfor %}
+    </div>
+    {% if user.is_authenticated %}
+      <a href="/courses/homepage" class="learning-button">Learning Homepage</a>
+      {% else %}
+
+    {% endif %}
+    </div>
+    <div id="about" class="why-us">
+      <h2>Why choose us?</h2>
+      <p>
+        When you choose Study Sphere you get fully accredited certifications
+        that get <strong>YOU</strong> hired.<br />
+        Whilst learning with us we offer full support to our students throughout
+        the world 24/7! You will never walk alone!<br />
+        Every aspect of your course is managed through our learning platform,
+        from accessing content to communication.
+      </p>
+      <h3>
+        With us you can learn at your own pace! Also at any location through the
+        internet!
+      </h3>
+    </div>
+  </body>
+</html>

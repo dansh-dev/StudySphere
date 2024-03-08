@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/profile.css'%}" />
+</head>
+<body>
+    <div class="main-content">
+    {% if user.is_authenticated %}
+    <h2>Create a New Course</h2>
+    <a href="/courses/homepage" class="learning-button">Learning Homepage</a>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button class="learning-button" type="submit">Create Course</button>
+        <br>
+        <br>
+    </form>
+    {% else %}
+    <h1>Please log in to view this page</h1>
+    <a href="/users/login_user/">Click to Login.</a>
+    {% endif %}
+  </div>
+  </body>
+</html>

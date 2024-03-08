@@ -1,0 +1,30 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/profile.css'%}" />
+</head>
+<body>
+    <div class="main-content">
+    {% if user.is_authenticated %}
+    <h2>Student Submissions</h2>
+    <a href="/courses/homepage" class="learning-button">Learning Homepage</a>
+    <br>
+    
+      {% for submission in submissions %}
+      <div class="card-container">
+      <h3>Username: {{ submission.student.username }}</h3>
+      <a class="card-button" href="{% url 'submission' submission.id %}">View</a>
+    </div>
+    <br>
+    <br>
+      {% endfor %}
+    {% else %}
+    <h1>Please log in to view this page</h1>
+    <a href="/users/login_user/">Click to Login.</a>
+    {% endif %}
+  </div>
+  </body>
+</html>
+

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/profile.css'%}" />
+</head>
+<body>
+    <div class="main-content">
+    <h2>View notifications:</h2>
+    <a href="/courses/homepage" class="learning-button">Learning Homepage</a>
+    <br><br>
+      {% if user.auth_level == 'teacher' %}
+      {% for notification in notifications %}
+      <div class="card">
+        <div class="card-container">
+            <h2>New student enrolled:</h2>          
+            <h4>{{ notification.student }}</h4>
+            <h4>{{ notification.course }}</h4>
+            <h4>{{ notification.enrolled_at }}</h4>
+          </div>
+        </div>
+        {% endfor %}
+      {% else %}
+      {% for notification in notifications %}
+      <div class="card">
+        <div class="card-container">
+            <h2>New content added:</h2>          
+            <h4>{{ notification.course_content }}</h4>
+            <h4>{{ notification.created_at }}</h4>
+            <a href="{% url 'view_content' notification.course_content.id %}" class="card-button edit-button">View</a>
+            <br>
+            <br>
+          </div>
+        </div>
+        {% endfor %}
+      {% endif %}
+  </div>
+  </body>
+</html>

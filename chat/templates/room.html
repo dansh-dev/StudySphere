@@ -1,0 +1,65 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {% load static %}
+    <style>
+        #chat-log {
+            height: 400px; /* Set desired height */
+            overflow-y: scroll;
+        }
+    </style>
+    <link rel="stylesheet" href="{% static 'css/courses.css'%}" />
+</head>
+<body>
+      <div class="main-content">
+        <a href="/chat/home/" class="learning-button">Back</a>
+        <h2>Chat Room: {{ room_name }}</h2>
+    <div id="chat-log">
+        {% for message in room_messages %}
+            <div class="card-container">{{ message.user.username }}: {{ message.message }}</div>
+        {% endfor %}
+    </div>
+    <input id="chat-message-input" type="text">
+    <button id="chat-message-submit">Send</button>
+
+    <script>
+        var roomName = "{{ room_name }}";
+        var chatSocket = new WebSocket(
+            'ws://' + window.location.host +
+            '/ws/chat/chat_room/' + roomName + '/');
+
+            chatSocket.onmessage = function(e) {
+            var data = JSON.parse(e.data);
+            var chatLog = document.querySelector('#chat-log');
+            var isScrolledToBottom = chatLog.scrollHeight - chatLog.clientHeight <= chatLog.scrollTop + 1;
+
+            chatLog.innerHTML += '<div class="card-container">' + data.message + '</div>';
+
+            if (isScrolledToBottom) {
+                chatLog.scrollTop = chatLog.scrollHeight;
+            }
+        };
+
+        document.querySelector('#chat-message-input').focus();
+        document.querySelector('#chat-message-input').onkeyup = function(e) {
+            if (e.keyCode === 13) {
+                document.querySelector('#chat-message-submit').click();
+            }
+        };
+
+        document.querySelector('#chat-message-submit').onclick = function(e) {
+            var messageInputDom = document.querySelector('#chat-message-input');
+            var message = messageInputDom.value;
+            if (message.length > 0){
+            chatSocket.send(JSON.stringify({
+                'message': message
+            }));
+            messageInputDom.value = '';
+            } else {
+                console.log('No message provided');
+            }
+    };
+    </script>
+        </body>
+</html>

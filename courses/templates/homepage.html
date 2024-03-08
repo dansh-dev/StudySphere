@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+    {% if user.is_authenticated %}
+    <head>
+        {% load static %}
+        <link rel="stylesheet" href="{% static 'css/courses.css'%}" />
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+    </head>
+    <body>
+        <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js'></script>
+        <div class="menu-bar">
+            <!-- Logo -->
+            <div class="title-container">
+              <img src="{% static 'Small.png' %}" alt="Logo" class="logo" />
+              <span class="title">STUDY SPHERE</span>
+            </div>
+            {% if user.auth_level == 'teacher'%}
+            <form class="search-form" action="{% url 'user_search' %}" method="GET">
+                {{ searchform.as_p }}
+                <button class="learning-button" type="submit">Search</button>
+            </form>
+            {% endif %}
+            <!-- Menu Buttons -->
+            <div class="menu-buttons">
+                <a href="/courses/courses" class="menu-button">COURSES</a>
+                <a class="menu-button" href="{% url 'notifications' %}" class="menu-button">NOTIFICATIONS</a>
+              <a href="/users/profile" class="menu-button">PROFILE</a>
+              {% if user.is_authenticated %}
+              <a href="/users/logout_user" class="menu-button">LOGOUT</a>
+              {% else %}
+              <a href="/users/login_user" class="menu-button">LOGIN/SIGNUP</a>
+              {% endif %}
+            </div>
+          </div>
+          <div id="parent-container">
+
+          <div class="child-container">
+            {% if user.auth_level == 'student'%}
+              <h2>Your Courses - <a class="edit-button" href="/courses/courses">View All</a></h2>
+              
+            
+            {% for course in enrolled_courses %}
+                <div class="card">
+                    <div class="card-container">
+                        <h4>{{ course.name }}</h4>
+                        <a href="{% url 'view' course.id %}" class="card-button edit-button">View</a>
+                    </div>
+                    </div>
+            {% endfor %}
+            {% else %}
+            <h2>Your Courses - <a href="/courses/create">Create</a></h2>
+            {% for course in created_courses %}
+                <div class="card">
+                    <div class="card-container">
+                        <h4>{{ course.name }}</h4>
+                        <a href="{% url 'edit' course.id%}" class="card-button edit-button">Edit</a>
+                        <a href="{% url 'view' course.id %}" class="card-button">View</a>
+                    </div>
+                    </div>
+            {% endfor %}
+            {% endif %}
+        </div>
+        <div class="child-container middle">
+            <h1>Welcome {{ user.first_name }}</h1>
+            <h2>Status Updates</h2>
+            <form action="{% url 'post_status_update' %}" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <input class="card-button"type="submit" value="Post">
+            </form>
+            {% for post in posts %}
+                <div class="status">
+                    <div class="status-container">
+                        <h4>{{ post.user }}</h4>
+                        <h4>{{ post.text }}</h4>
+                        <p>Posted at: {{ post.created_at }}</p>
+                        <a href="{% url 'view_comments' post.id %}" class="card-button">View Comments</a>
+                        {% if request.user != post.user %}
+                        <button class="card-button" onclick="toggleCommentForm('{{ post.id }}')">Comment</button>
+                        <form id="commentForm{{ post.id }}" method="post" action="{% url 'post_comment' post.id %}" style="display: none;">
+                            {% csrf_token %}
+                            <textarea name="text" rows="3" cols="50" placeholder="Enter your comment"></textarea><br>
+                            <button class="card-button" type="submit">Post Comment</button>
+                        </form>
+                        {% endif %}
+                        <script>
+                            function toggleCommentForm(postId) {
+                                var form = document.getElementById("commentForm" + postId);
+                                form.style.display = (form.style.display == "none") ? "block" : "none";
+                            }
+                        </script>
+                        {% if request.user == post.user %}
+                        <form action="{% url 'delete_post' post.id %}" method="POST" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <input class="card-button" type="submit" value="Delete">
+                        </form>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        {% if user.auth_level == 'student' %}
+        <div class="child-container">
+            <h2>Upcoming deadlines:</h2>
+            {% for deadline in deadlines %}
+            <div class="card">
+                <div class="card-container">
+                    <h4>{{ deadline.0.content }}</h4>
+                    <div class="card-container">
+                        <h4>Due: {{ deadline.0.deadline }}</h4>
+                    </div>
+                    <a href="{% url 'view_content' deadline.0.content.id %}" class="card-button edit-button">View</a>
+                </div>
+                </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        
+        <div class="child-container">
+            <h2>Active students:</h2>
+        {% for student in active_students %}
+            
+        <div class="card">
+            <div class="card-container">
+                <h4>{{ student.username }} </h4>
+                <div class="card-container">
+                <p class="last_login"> {{ student.last_login }}</p>
+                </div>
+        
+            </div>
+        </div>
+        {% endfor %}
+
+        {% endif %}
+        
+    </div>
+    </body>
+    <a href="{% url 'chat_index' %}" class="floating-btn">
+        <span class="material-symbols-outlined">
+            chat
+        </span>
+    </a>
+    {% else %}
+    <h1>You must be logged in to view all courses!</h1>
+    {% endif %}
+</ul>
+</html>

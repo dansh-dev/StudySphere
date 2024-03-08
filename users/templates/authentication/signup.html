@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Registration Form</title>
+    <style>
+        /* Basic CSS for styling */
+        body {
+            font-family: Arial, sans-serif;
+        }
+        form {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            background-color: #f9f9f9;
+        }
+        input[type="text"],
+        input[type="email"],
+        input[type="password"],
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        input[type="file"] {
+            margin-top: 5px;
+        }
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+   
+<form action="{% url 'signup_user' %}" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <h2>User Registration</h2>
+    <label for="username">Username:</label>
+    <input type="text" id="username" name="username" required />
+
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" required />
+
+    <label for="password1">Password:</label>
+    <input type="password" id="password1" name="password1" required />
+
+    <label for="password2">Confirm Password:</label>
+    <input type="password" id="password2" name="password2" required />
+
+    <label for="first_name">First Name:</label>
+    <input type="text" id="first_name" name="first_name" />
+
+    <label for="last_name">Last Name:</label>
+    <input type="text" id="last_name" name="last_name" />
+
+    <label for="bio">Biography:</label>
+    <textarea id="bio" name="bio" rows="4"></textarea>
+
+    <label for="profile-picture">Profile Picture:</label>
+    <input type="file" id="profile-picture" name="profile-picture" accept="image/*"/>
+    {% if errors%}
+    {% if errors.first_name %}
+    <p>First name invalid!</p>
+    {% endif %}
+    {% if errors.last_name %}
+    <p>Last name invalid!</p>
+    {% endif %}
+    {% if errors.password2 %}
+    <p>Passwords don't match!</p>
+    {% endif %}
+    {% if errors.username %}
+    <p>Username invalid!</p>
+    {% endif %}
+    {% if errors.email %}
+    <p>Email already in use / invalid!</p>
+    {% endif %}
+    {% if errors.first_name %}
+    {% endif %}
+    {% if errors.first_name %}
+    {% endif %}
+{% endif %}
+    <input type="submit" value="Register" />
+</form>
+
+</body>
+</html>

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/courses.css'%}" />
+</head>
+<body>
+    <div class="main-content">
+    {% if user.is_authenticated %}
+    <h2>Enroll in {{ course.name }}</h2>
+    <form method="post">
+        {% csrf_token %}
+        <p>Are you sure you want to enroll in {{ course.name }}?</p>
+        <button class="card-button" type="submit">Enroll</button>
+        <a href="/courses/homepage" class="learning-button">Learning Homepage</a>
+        <br>
+        <br>
+    </form>
+    {% endif %}
+  </div>
+  </body>
+</html>

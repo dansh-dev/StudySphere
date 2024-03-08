@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+    {% if user.is_authenticated %}
+    <head>
+        {% load static %}
+        <link rel="stylesheet" href="{% static 'css/courses.css'%}" />
+    </head>
+    <body>
+          <div class="main-content">
+            <a href="/courses/homepage" class="learning-button">Learning Homepage</a>
+          {% if user.auth_level == 'student' %}
+        <h2>All Courses that you aren't enrolled in:</h2>
+        {% else %}
+        <h2>All Courses:</h2>
+        {% endif %}
+        
+        {% for course in courses %}
+            <div class="card">
+              <br>
+              <br>
+                <img class="banner_image" src="{{ course.banner_image.url }}" alt="banner_image"> 
+                <div class="card-container">
+                    <h4>{{ course.name }}</h4>
+                    <div class="card-container">
+                    <p>{{ course.description }}</p>
+                    </div>
+                    {% if user.auth_level == 'student' %}
+                    <a href="/courses/{{ course.pk }}/enroll" class="card-button">Enroll</a>
+                    {% else %}
+                    {% if user == course.teacher %}
+                    <a href="/courses/edit/{{ course.pk }}" class="card-button edit_button">Edit</a>
+                    {% endif %}
+                    {% endif %}
+                </div>
+                </div>
+        {% endfor %}
+        
+    </div>
+    </body>
+    {% else %}
+    <h1>You must be logged in to view all courses!</h1>
+    {% endif %}
+</ul>
+</html>

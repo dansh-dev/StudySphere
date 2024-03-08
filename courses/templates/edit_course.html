@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {% load static %}
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Edit Course</title>
+    <link rel="stylesheet" href="{% static 'css/courses.css'%}" />
+  </head>
+  <body>
+    <div class="main-content">
+      <a href="/courses/homepage" class="learning-button">Learning Homepage</a>
+    <h2>Edit Course</h2>
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %} {{ form.as_p }}
+
+      <!-- Add a field for selecting students to remove -->
+      <label for="students_to_remove">Remove Students:</label>
+      <select name="students_to_remove" id="students_to_remove" multiple>
+        {% for student in course.students.all %}
+        <option value="{{ student.id }}">{{ student.username }}</option>
+        {% endfor %}
+      </select>
+      <button class="card-button edit-button" type="submit">Save Changes</button>
+      <button class="card-button" type="button" id="delete_course_btn">Delete Course</button>
+    </form>
+    <script>
+      document
+        .getElementById("delete_course_btn")
+        .addEventListener("click", function () {
+          if (confirm("Are you sure you want to delete this course?")) {
+            window.location.href =
+              "{% url 'delete_course' course_id=course.id %}";
+          }
+        });
+    </script>
+    </div>
+  </body>
+</html>

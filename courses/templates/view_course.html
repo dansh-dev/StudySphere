@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/courses.css'%}" />
+  </head>
+  <body>
+    <div class="main-content">
+      <h1>Welcome to the {{ course.name }} course!</h1>
+      <a href="/courses/homepage" class="learning-button">Learning Homepage</a>
+      {% if user.auth_level == 'teacher' %}
+      <a class="card-button" href="{% url 'add_course_content' course.id %}"
+        >Add Content</a
+      >
+      {% else %}
+      <form method="POST" action="{% url 'unenroll_course' course.id %}">
+        {% csrf_token %}
+        <button class="card-button" type="submit">Unenroll from Course</button>
+      </form>
+      {% endif %} {% csrf_token %}
+      <h2>Course description:</h2>
+      <h4>{{ course.description }}</h4>
+
+      {% for content in course_content %}
+      <div class="card">
+        <div class="card-container">
+          <h4>{{ content.title }}</h4>
+          <br />
+          {% if user.auth_level == 'student' %}
+          <a
+            href="/courses/view_content/{{ content.id }}"
+            class="card-button edit-button"
+            >View</a
+          >
+          {% else %}
+          <a
+            href="/courses/view_content/{{ content.id }}"
+            class="card-button edit-button"
+            >View</a
+          >
+          <a
+            href="/courses/view_submissions/{{ content.id }}"
+            class="card-button edit-button"
+            >Submissions</a
+          >
+          <a href="/courses/delete_content/{{ content.id }}" class="card-button"
+            >Delete</a
+          >
+          {% endif %}
+        </div>
+      </div>
+      {% endfor %}
+      <div class="main-content">
+        {% if user.auth_level == 'student' %}
+        <h1>Leave feedback for this course:</h1>
+        <form method="post">
+          {% csrf_token %} {{ form.as_p }}
+          
+          <button class="card-button" type="submit">Send Feedback</button>
+        </form>
+        {% else %}
+        
+        <h1>Course Feedback:</h1>
+        {% endif %}
+        {% for message in feedback %}
+        <div class="status">
+          <div class="status-container">
+            <h4>{{ message.user}}</h4>
+            <h4>{{ message.text}}</h4>
+            <h4>{{ message.created_at}}</h4>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </body>
+</html>

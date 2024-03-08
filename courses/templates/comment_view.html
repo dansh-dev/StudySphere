@@ -1,0 +1,24 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/courses.css'%}" />
+</head>
+<body>
+      <div class="main-content">
+        <h1>Comments:</h1>
+        <a href="/courses/homepage" class="learning-button">Learning Homepage</a>
+        <br>
+        <br>
+    </div>
+      {% for comment in comments%}
+      <div class="main-content">
+        <h2>{{comment.user}}</h2>
+        <h3>{{comment.text}}</h3>
+        <p>{{comment.created_at}}</p>
+    </div>
+    {% endfor %}
+    
+  </body>
+</html>
