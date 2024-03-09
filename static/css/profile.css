@@ -1,0 +1,212 @@
+@font-face {
+  font-family: "LilitaOne-Regular";
+  src: local("LilitaOne-Regular"),
+    url("../fonts/LilitaOne-Regular.ttf") format("truetype");
+}
+@font-face {
+  font-family: "NotoSans-VariableFont";
+  src: local("NotoSans-VariableFont"),
+    url("../fonts/NotoSans-VariableFont.ttf") format("truetype");
+}
+
+html {
+  background-color: transparent;
+}
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-image: url("../BG-Main-Blur.png");
+
+  background-size: 100%;
+  background-attachment: fixed;
+}
+
+.container:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  box-shadow: inset 0 0 2000px rgba(255, 255, 255, 0.5);
+  box-shadow: inset 0 0 2000px rgba(255, 255, 255, 0.5);
+  filter: blur(10px);
+}
+.menu-bar {
+  margin-top: 1%;
+  border-radius: 50px;
+
+  background: #e0e0e0;
+  /* box-shadow: 5px 5px 39px #bcbcbc, -5px -5px 39px #ffffff; */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  width: 80%; /* Adjust as needed */
+  position: sticky;
+  margin-left: 10%;
+  margin-right: 10%;
+  z-index: 1000; /* Ensure it's above other content */
+}
+.logo-container {
+  display: flex;
+  align-items: center;
+}
+.logo {
+  width: 50px;
+  height: auto;
+  margin-right: 10px;
+}
+
+.pfp {
+  max-width: 100px;
+  max-height: 100px;
+}
+
+.title-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.title {
+  font-family: LilitaOne-Regular;
+  margin-left: 5px;
+  font-size: 30px;
+  font-weight: bold;
+}
+.menu-buttons {
+  display: flex;
+}
+.menu-button {
+  font-family: NotoSans-VariableFont;
+  font-weight: bold;
+  font-size: 20px;
+  margin-left: 20px;
+  padding: 8px 16px;
+  border-radius: 50px;
+  background-color: #e0e0e0;
+  color: #4f1271;
+
+  cursor: pointer;
+  border-radius: 5px;
+  text-decoration: none;
+}
+.menu-button:hover {
+  transition: 250ms;
+  background-color: #e4e4e4;
+  color: #330c48;
+  box-shadow: 5px 5px 39px #bcbcbc, -5px -5px 39px #ffffff;
+}
+.scroll-cta-container {
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+}
+
+.scroll-cta {
+    width: 3%;
+    height: 3%;
+}
+
+.main-content {
+  margin-top: 1%;
+  border-radius: 50px;
+  background: #e0e0e0;
+  padding: 20px 20px;
+  width: 80%;
+  margin-left: 10%;
+  margin-right: 10%;
+  /* display: flexbox; */
+  align-content: center;
+}
+
+.courses-content {
+  margin-top: 1%;
+  border-radius: 50px;
+  background: #e0e0e0;
+  padding: 20px 20px;
+  width: 80%;
+  margin-left: 10%;
+  margin-right: 10%;
+  min-height: 300px;
+}
+
+.grid-container {
+  display: grid;
+  gap: 25px 25px;
+}
+
+.grid-item {
+  border-radius: 50px;
+  background: #e0e0e0;
+  box-shadow: 5px 5px 39px #bcbcbc, -5px -5px 39px #ffffff;
+  min-height: 50px;
+  min-width: 50px;
+  padding: 5px;
+}
+
+.why-us {
+  margin-top: 1%;
+  border-radius: 50px;
+  background: #e0e0e0;
+  padding: 20px 20px;
+  width: 80%;
+  margin-left: 10%;
+  margin-right: 10%;
+  margin-bottom: 1%;
+}
+h1 {
+  font-family: NotoSans-VariableFont;
+  font-weight: bold;
+  font-size: 35px;
+}
+
+h2 {
+    font-family: NotoSans-VariableFont;
+    font-weight: bold;
+    font-size: 25px;
+}
+
+.card-button {
+  font-family: NotoSans-VariableFont;
+  font-weight: bold;
+  font-size: 15px;
+  border-radius: 50px;
+  background-color: #4f1271;
+  color: #e0e0e0;
+  padding: 5px;
+  cursor: pointer;
+  border-radius: 5px;
+  text-decoration: none;
+  float: right;
+  width: fit-content;
+  height: fit-content;
+}
+
+.card-button:hover {
+  transition: 250ms;
+  background-color: #340c4a;
+  color: #bcbcbc;
+  box-shadow: 5px 5px 39px #bcbcbc, -5px -5px 39px #ffffff;
+}
+
+.learning-button {
+  font-family: NotoSans-VariableFont;
+  font-weight: bold;
+  font-size: 15px;
+  border-radius: 50px;
+  background-color: #4f1271;
+  color: #e0e0e0;
+  padding: 5px;
+  cursor: pointer;
+  border-radius: 5px;
+  text-decoration: none;
+  float: right;
+}
+
+.profile_picture {
+  width: 10%;
+  overflow: hidden;
+  border-radius: 36px;
+}
