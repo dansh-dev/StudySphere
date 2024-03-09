@@ -45,12 +45,12 @@ EMAIL_HOST_PASSWORD = 'orfu yluf rpkn xjkb'
 
 
 # Comment for prod
-CELERY_BROKER_URL = 'redis://localhost:6379'
-CELERY_RESULT_BACKEND = 'redis://localhost:6379'
+# CELERY_BROKER_URL = 'redis://localhost:6379'
+# CELERY_RESULT_BACKEND = 'redis://localhost:6379'
 
 # Uncomment for prod
-# CELERY_BROKER_URL = os.getenv("REDIS_URL")
-# CELERY_RESULT_BACKEND = os.getenv("REDIS_URL")
+CELERY_BROKER_URL = os.getenv("REDIS_URL")
+CELERY_RESULT_BACKEND = os.getenv("REDIS_URL")
 
 INSTALLED_APPS = [
     'core_study',
@@ -183,7 +183,7 @@ if DEBUG == True:
         },
     }
 else:
-            CHANNEL_LAYERS={
+        CHANNEL_LAYERS={
             'default' : {
             'BACKEND': 'channels_redis.core.RedisChannelLayer',
             'CONFIG': {
