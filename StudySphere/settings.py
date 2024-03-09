@@ -94,8 +94,8 @@ WSGI_APPLICATION = 'StudySphere.wsgi.application'
 ASGI_APPLICATION = 'StudySphere.routing.application'
 
 
-STATIC_URL = "static/"
-STATIC_ROOT = os.path.join(BASE_DIR, "static/")
+STATIC_URL = "/static/"
+STATIC_ROOT = os.path.join(BASE_DIR, "core_study/static/")
 
 MEDIA_ROOT = 'images'
 MEDIA_URL = '/images/'
