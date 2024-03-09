@@ -173,7 +173,7 @@ USE_I18N = True
 
 USE_TZ = True
 
-if DEVELOPMENT_MODE == True:
+if DEBUG == True:
     CHANNEL_LAYERS = {
         'default' : {
             'BACKEND': 'channels_redis.core.RedisChannelLayer',
