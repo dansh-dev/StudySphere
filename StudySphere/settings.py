@@ -26,9 +26,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", get_random_secret_key())
 
+# uncomment for prod
 DEBUG = os.getenv("DEBUG", "False") == "True"
-# DEVELOPMENT_MODE = os.getenv("DEVELOPMENT_MODE", "False") == "True"
-DEVELOPMENT_MODE = "True"
+DEVELOPMENT_MODE = os.getenv("DEVELOPMENT_MODE", "False") == "True"
+
+# Comment for prod
+# DEBUG = True
+# DEVELOPMENT_MODE = True
 
 ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS", "127.0.0.1,localhost").split(",")
 
@@ -36,13 +40,17 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'studysphereauth@gmail.com'  # Replace with your Gmail address
-EMAIL_HOST_PASSWORD = 'orfu yluf rpkn xjkb'     # Replace with your Gmail password or app password
+EMAIL_HOST_USER = 'studysphereauth@gmail.com'  
+EMAIL_HOST_PASSWORD = 'orfu yluf rpkn xjkb'    
 
 
+# Comment for prod
 CELERY_BROKER_URL = 'redis://localhost:6379'
 CELERY_RESULT_BACKEND = 'redis://localhost:6379'
-# Application definition
+
+# Uncomment for prod
+# CELERY_BROKER_URL = os.getenv("REDIS_URL")
+# CELERY_RESULT_BACKEND = os.getenv("REDIS_URL")
 
 INSTALLED_APPS = [
     'core_study',
@@ -93,32 +101,22 @@ TEMPLATES = [
 WSGI_APPLICATION = 'StudySphere.wsgi.application'
 ASGI_APPLICATION = 'StudySphere.routing.application'
 
+MEDIA_ROOT = os.path.join(BASE_DIR, 'images')
+MEDIA_URL =  '/images/'
 
 STATIC_URL = "/static/"
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+
 STATICFILES_DIRS = [
     BASE_DIR / "static",
     "/var/www/static/",
 ]
 
-MEDIA_ROOT = 'images'
-MEDIA_URL = '/images/'
-
-# Database
-# https://docs.djangoproject.com/en/5.0/ref/settings/#databases
-
-
-# DATABASES = {
-#     "default": {
-#         "ENGINE": "django.db.backends.sqlite3",
-#         "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
-#     }
-# }
 
 if DEVELOPMENT_MODE is True:
     DATABASES = {
         "default": {
-        'ENGINE': 'django.db.backends.postgresql',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'studysphere',
         'USER': 'studysphere',
         'PASSWORD': 'admin',
@@ -126,7 +124,7 @@ if DEVELOPMENT_MODE is True:
         'PORT': '5432',
         },
         "test": {
-        'ENGINE': 'django.db.backends.postgresql',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'test_studysphere',
         'USER': 'studysphere',
         'PASSWORD': 'admin',
@@ -134,8 +132,11 @@ if DEVELOPMENT_MODE is True:
         'PORT': '5432',
         }
     }
+# Uncomment for prod
 elif len(sys.argv) > 0 and sys.argv[1] != 'collectstatic':
     if os.getenv("DATABASE_URL", None) is None:
+        print (len(sys.argv))
+        print(sys.argv[1])
         raise Exception("DATABASE_URL environment variable not defined")
     DATABASES = {
         "default": dj_database_url.parse(os.environ.get("DATABASE_URL")),
@@ -172,19 +173,23 @@ USE_I18N = True
 
 USE_TZ = True
 
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/5.0/howto/static-files/
-
-CHANNEL_LAYERS = {
-    'default' : {
-        'BACKEND': 'channels_redis.core.RedisChannelLayer',
-        'CONFIG': {
-            'hosts' : [('127.0.0.1', 6379)]
+if DEVELOPMENT_MODE == True:
+    CHANNEL_LAYERS = {
+        'default' : {
+            'BACKEND': 'channels_redis.core.RedisChannelLayer',
+            'CONFIG': {
+                'hosts' : [('127.0.0.1', 6379)]
+            },
         },
-    },
-}
-# Default primary key field type
-# https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
+    }
+else:
+            CHANNEL_LAYERS={
+            'default' : {
+            'BACKEND': 'channels_redis.core.RedisChannelLayer',
+            'CONFIG': {
+                'hosts' : [(os.getenv("REDIS_URL"), 6379)]
+            },
+        },
+    }
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
